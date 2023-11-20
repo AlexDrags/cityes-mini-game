@@ -1,11 +1,4 @@
-import Image from 'next/image';
-import type { Metadata } from 'next';
-import RulesInfo from './components/RulesInfo';
-import { cities } from '@/app/lib/city';
-interface ContentProps {
-  children: React.ReactNode;
-}
-export default function Home() {
+export default function RulesInfo() {
   return (
     <div className='p-6 inline-flex flex-col gap-6'>
       <p className='text-sm font-normal'>Цель: Назвать как можно больше реальных городов.</p>
