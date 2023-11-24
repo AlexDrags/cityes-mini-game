@@ -2,17 +2,18 @@
 import { useState, useEffect } from 'react';
 interface WordsProps {
   words: string[];
+  onSubmit: (words: string[]) => void;
 }
 interface IElement {
   desk: HTMLElement;
 }
-export default function WordsDesk({ words }: WordsProps) {
+export default function WordsDesk({ words, onSubmit }: WordsProps) {
   useEffect(() => {
     const desk = document.getElementById('desk');
     if (desk instanceof HTMLElement) {
       desk.scrollTop = desk.scrollHeight;
     }
-  }, [words]);
+  }, [words, onSubmit]);
   return (
     <div id='desk' className='flex flex-col gap-1 h-80 overflow-x-auto grow pl-2 pr-2'>
       {words.length > 0 &&

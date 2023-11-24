@@ -1,5 +1,5 @@
 'use client';
-
+import './globals.css';
 import { Inter } from 'next/font/google';
 import { useState, useEffect } from 'react';
 import Header from '@/app/components/Header';
@@ -9,9 +9,8 @@ import StartButton from '@/app/components/ui/StartButton';
 import WordsDesk from './components/ui/WordsDesk';
 import Timer from '@/app/components/ui/Timer';
 import SendField from '@/app/components/ui/SendField';
-import Link from 'next/link';
-import './globals.css';
-import { timeEnd } from 'console';
+import WinInfo from '@/app//components/WinInfo';
+import FailInfo from '@/app//components/FailInfo';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,11 +25,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [npc, setNpc] = useState(false);
   const [minutes, setMinutes] = useState(1);
   const [seconds, setSeconds] = useState(59);
-  useEffect(() => {}, [npc, setNpc]);
+  const [finishTimer, setFinishTimer] = useState(118);
+  useEffect(() => {}, [mode, setMode, words, setWords, npc, setNpc, finishTimer, setFinishTimer]);
+
+  function contentRender() {
+    if (finishTimer !== 0) {
+      return mode === false ? <RulesInfo /> : <WordsDesk words={words} onSubmit={setWords} />;
+    }
+    if (finishTimer === 0 && npc !== false) {
+      return <WinInfo npc={npc} words={words} />;
+    }
+    if (finishTimer === 0 && npc === false) {
+      return <FailInfo npc={npc} words={words} />;
+    }
+  }
+
   return (
     <html lang='ru'>
       <body className={`font-sans bg-grey-200 inline-flex justify-center items-center flex-grow`}>
-        <div className=' min-h-fit pb-6 w-[576px] my-0 mx-auto max-w-xl bg-white rounded-2xl shadow'>
+        <div className=' min-h-fit pb-6 w-full min-w-320 my-0 mx-auto max-w-xl bg-white rounded-2xl shadow'>
           <Header>
             {mode === false ? (
               <div className='flex p-4 border-b-2 border-zinc-100'>
@@ -39,14 +52,31 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             ) : (
               <div className='flex p-4 border-b-4 border-violet-100'>
                 <h1 className='mr-auto'>{npc === false ? 'Сейчас ваша очередь' : 'Сейчас очередь соперника'}</h1>
-                <Timer minutes={minutes} setMinutes={setMinutes} seconds={seconds} setSeconds={setSeconds} />
+                <Timer
+                  minutes={minutes}
+                  setMinutes={setMinutes}
+                  seconds={seconds}
+                  setSeconds={setSeconds}
+                  finishTimer={finishTimer}
+                  setFinishTimer={setFinishTimer}
+                  mode={mode}
+                  setMode={setMode}
+                />
               </div>
             )}
           </Header>
-          <main className='flex'>{mode === false ? <RulesInfo /> : <WordsDesk words={words} />}</main>
+          <main className='flex'>{contentRender()}</main>
           <Footer>
             {mode === false ? (
-              <StartButton onClick={setMode} mode={mode} />
+              <StartButton
+                onClick={setMode}
+                mode={mode}
+                setMinutes={setMinutes}
+                setSeconds={setSeconds}
+                setFinishTimer={setFinishTimer}
+                words={words}
+                onSubmit={setWords}
+              />
             ) : (
               <SendField
                 words={words}
@@ -57,6 +87,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 setMinutes={setMinutes}
                 seconds={seconds}
                 setSeconds={setSeconds}
+                finishTimer={finishTimer}
+                setFinishTimer={setFinishTimer}
+                mode={mode}
+                setMode={setMode}
               />
             )}
           </Footer>

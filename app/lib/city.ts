@@ -1,6 +1,5 @@
-export const cities = `
+export const cities = `Азов
 Абакан
-Азов
 Александров
 Алексин
 Альметьевск
