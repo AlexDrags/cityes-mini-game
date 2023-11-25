@@ -80,17 +80,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             ) : (
               <SendField
                 words={words}
-                onSubmit={setWords}
                 queue={npc}
                 queueSet={setNpc}
-                minutes={minutes}
                 setMinutes={setMinutes}
-                seconds={seconds}
                 setSeconds={setSeconds}
-                finishTimer={finishTimer}
                 setFinishTimer={setFinishTimer}
-                mode={mode}
-                setMode={setMode}
               />
             )}
           </Footer>

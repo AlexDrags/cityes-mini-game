@@ -36,7 +36,7 @@ export default function Timer({
       }
     }, 1000);
     return () => clearTimeout(timeoutId);
-  }, [minutes, setMinutes, seconds, setSeconds, finishTimer, setFinishTimer]);
+  }, [minutes, setMinutes, seconds, setSeconds, finishTimer, setFinishTimer, mode, setMode]);
   return (
     <div>
       <span>{`0${minutes}`}</span>:<span>{seconds >= 10 ? `${seconds}` : `0${seconds}`}</span>
